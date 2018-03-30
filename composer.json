@@ -1,5 +1,5 @@
 {
-    "name": "quafzi/magento-checkout-newsletter-subscription",
+    "name": "djnewtown/magento-checkout-newsletter-subscription",
     "license": "OSL-3.0",
     "type": "magento-module",
     "description": "Subscribe users to newsletter in checkout",
