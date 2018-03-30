@@ -7,13 +7,44 @@ class Quafzi_CheckoutNewsletterSubscription_Model_Observer
         if ($observer->getBlock() instanceof Mage_Checkout_Block_Agreements
             && false === (boolean)(int)Mage::getStoreConfig('advanced/modules_disable_output/Quafzi_CheckoutNewsletterSubscription')
         ) {
-            $html = $observer->getTransport()->getHtml();
-            $checkboxHtml = '<li><p class="agree">'
-                . '<input id="subscribe_newsletter" name="is_subscribed" checked="checked" value="1" class="checkbox" type="checkbox" />'
-                . '<label for="subscribe_newsletter">' . Mage::helper('sales')->__('Subscribe to Newsletter') . '</label>'
-                . '</p></li>';
-            $html = str_replace('</ol>', $checkboxHtml . '</ol>', $html);
-            $observer->getTransport()->setHtml($html);
+            if(Mage::getSingleton('customer/session')->isLoggedIn()){
+                $email = Mage::getSingleton('customer/session')->getCustomer()->getData('email');
+                $subscriber = Mage::getModel('newsletter/subscriber')->loadByEmail($email);
+
+                if($subscriber->getId())
+                {
+                    $isActive = $subscriber->getData('subscriber_status') == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED;
+
+                    if ($isActive)
+                    {
+                        $show = false;
+                    }
+                    else
+                    {
+                        $show = true;
+                    }
+                }
+                else
+                {
+                    $show = true;
+                }
+            }
+            else
+            {
+                $show = true;
+            }
+
+            if ($show)
+            {
+                $html = $observer->getTransport()->getHtml();
+                $checkboxHtml = '<li><p class="agree">'
+                    . '<input id="subscribe_newsletter" name="is_subscribed" checked="checked" value="1" class="checkbox" type="checkbox" />'
+                    . '<label for="subscribe_newsletter">' . Mage::helper('sales')->__('Subscribe to Newsletter') . '</label>'
+                    . '</p></li>';
+                $html = str_replace('</ol>', $checkboxHtml . '</ol>', $html);
+                $observer->getTransport()->setHtml($html);
+            }
+
         }
     }
 
