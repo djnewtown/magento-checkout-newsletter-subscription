@@ -37,11 +37,11 @@ class Quafzi_CheckoutNewsletterSubscription_Model_Observer
             if ($show)
             {
 
-                $varDataProtectionCheckout = Mage::getModel('core/variable')->loadByCode('dataProtectionTextCheckout');
-                if ($varDataProtectionCheckout)
-                {
-                    $textDataProtection = $varDataProtectionCheckout->getValue('html');
-                }
+                $textDataProtection = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('dataProtectionTextCheckout')->toHtml();
+//                if ($varDataProtectionCheckout)
+//                {
+//                    $textDataProtection = $varDataProtectionCheckout->getValue('html');
+//                }
 //                else
 //                {
 //                    $textDataProtection = 'Lorem Ipsum ... dataProtectionTextCheckout not found! ';
