@@ -38,6 +38,7 @@ class Quafzi_CheckoutNewsletterSubscription_Model_Observer
             {
 
                 $storeCode = Mage::app()->getStore()->getCode();
+//                Mage::Log($storeCode,null,'test1.log');
 
                 $varDataProtectionCheckout = Mage::getModel('core/variable')->loadByCode('dataProtectionTextCheckout-'.$storeCode);
                 if ($varDataProtectionCheckout)
