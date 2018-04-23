@@ -37,16 +37,13 @@ class Quafzi_CheckoutNewsletterSubscription_Model_Observer
             if ($show)
             {
 
-                $textDataProtection = Mage::app()->getLayout()->createBlock('cms/block')->setBlockId('dataProtectionTextCheckout')->toHtml();
-//                if ($varDataProtectionCheckout)
-//                {
-//                    $textDataProtection = $varDataProtectionCheckout->getValue('html');
-//                }
-//                else
-//                {
-//                    $textDataProtection = 'Lorem Ipsum ... dataProtectionTextCheckout not found! ';
-//
-//                }
+                $storeCode = Mage::app()->getStore()->getCode();
+
+                $varDataProtectionCheckout = Mage::getModel('core/variable')->loadByCode('dataProtectionTextCheckout-'.$storeCode);
+                if ($varDataProtectionCheckout)
+                {
+                    $textDataProtection = $varDataProtectionCheckout->getValue('html');
+                }
 
                 $html = $observer->getTransport()->getHtml();
                 $checkboxHtml = '<li><p class="agree">'
